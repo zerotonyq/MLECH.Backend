@@ -14,5 +14,15 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
 
     model_config = SettingsConfigDict(
-        # TODO
+        env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "configs", ".env")
+    )
+
+
+settings = Settings()
+
+
+def get_db_url() -> str:
+    return (
+        f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
+        f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
     )

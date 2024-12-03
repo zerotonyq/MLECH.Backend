@@ -7,4 +7,4 @@ app = FastAPI()
 
 @app.get("/")
 def default_route():
-    return {"Hello": "World"}
+    return {"say": "I'm so tired"}

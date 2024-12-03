@@ -3,6 +3,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:latest
+    container_name: auto_park_db
     restart: unless-stopped
     ports:
       - "5433:5432"
