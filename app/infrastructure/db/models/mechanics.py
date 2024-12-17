@@ -1,25 +1,30 @@
-from app.infrastructure.db.db_settings import BaseTable
-from sqlalchemy import ForeignKey
+from app.infrastructure.db.database import BaseTable
+from app.infrastructure.db.models.users import UserSexEnum
 
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column
+from sqlalchemy import (
+    DECIMAL,
+    Column,
+    Enum,
+    ForeignKey,
+    Integer
 )
-
-from datetime import date
 
 
 class Mechanic(BaseTable):
-    mechanic_id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(
+    mechanic_id = Column(
+        Integer,
+        primary_key=True,
+        autoincrement=True
+    )
+    user_id = Column(
+        Integer,
         ForeignKey(
             'users.user_id',
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         ),
         nullable=False
     )
-    birth_date: Mapped[date]
-    sex: Mapped[bool]
-    # TODO mechanic_rating: Mapped[float] Calculate dynamic and don't save at table? OR remove this
-    car_times_repaired: Mapped[int] = mapped_column(nullable=False, default=0)
-
+    age = Column(Integer, nullable=False)
+    sex = Column(Enum(UserSexEnum, name="user_sex_enum"), nullable=False)
+    mechanic_rating = Column(DECIMAL, nullable=False, default=10.0)
+    car_times_repaired = Column(Integer, nullable=False, default=0)

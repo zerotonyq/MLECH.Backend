@@ -1,15 +1,28 @@
-from app.infrastructure.db.db_settings import BaseTable
-from sqlalchemy import ForeignKey
+from app.infrastructure.db.database import BaseTable
 
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column
+from sqlalchemy import (
+    DECIMAL,
+    Column,
+    ForeignKey,
+    Integer,
 )
 
 
 class Ride(BaseTable):
-    ride_id: Mapped[int] = mapped_column(primary_key=True)
-    driver_id: Mapped[int] = mapped_column(ForeignKey('drivers.driver_id'), nullable=False)
-    car_id: Mapped[int] = mapped_column(ForeignKey('cars.car_id'), nullable=False)
-    rating: Mapped[float] = mapped_column(default=5.0)
+    ride_id = Column(
+        Integer,
+        primary_key=True,
+        autoincrement=True
+    )
+    driver_id = Column(
+        Integer,
+        ForeignKey('drivers.driver_id'),
+        nullable=False
+    )
+    car_id = Column(
+        Integer,
+        ForeignKey('cars.car_id'),
+        nullable=False
+    )
+    rating = Column(DECIMAL, nullable=False, default=10.0)
 

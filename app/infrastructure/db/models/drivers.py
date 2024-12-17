@@ -1,27 +1,33 @@
-from app.infrastructure.db.db_settings import BaseTable
-from sqlalchemy import ForeignKey
+from app.infrastructure.db.database import BaseTable
+from app.infrastructure.db.models.users import UserSexEnum
 
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column
+from sqlalchemy import (
+    DATE,
+    DECIMAL,
+    Column,
+    Enum,
+    ForeignKey,
+    Integer
 )
-
-from datetime import date
 
 
 class Driver(BaseTable):
-    driver_id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(
+    driver_id = Column(
+        Integer,
+        primary_key=True,
+        autoincrement=True
+    )
+    user_id = Column(
+        Integer,
         ForeignKey(
             'users.user_id',
-            ondelete="CASCADE"
+            ondelete='CASCADE'
         ),
         nullable=False
     )
-    birt_date: Mapped[date]
-    sex: Mapped[bool]
-    # TODO driver_rating: Mapped[float] Calculate dynamic and don't save at table?
-    driver_rides: Mapped[int] = mapped_column(nullable=False, default=0)
-    driver_time_accidents: Mapped[int] = mapped_column(nullable=False, default=0)
-    driver_license_number: Mapped[str] = mapped_column(unique=True, nullable=False)
-
+    age = Column(Integer, nullable=False)
+    sex = Column(Enum(UserSexEnum, name="user_sex_enum"), nullable=False)
+    driver_rating = Column(DECIMAL, nullable=False, default=10.0)
+    driver_rides = Column(Integer, nullable=False, default=0)
+    driver_time_accidents = Column(Integer, nullable=False, default=0)
+    first_ride_date = Column(DATE, nullable=False)

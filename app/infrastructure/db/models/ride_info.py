@@ -1,24 +1,33 @@
-from app.infrastructure.db.db_settings import BaseTable
-from sqlalchemy import ForeignKey
+from datetime import date
 
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column
+from app.infrastructure.db.database import BaseTable
+
+from sqlalchemy import (
+    DATE,
+    DECIMAL,
+    Column,
+    ForeignKey,
+    Integer,
 )
-
-from datetime import datetime
 
 
 class RideInfo(BaseTable):
-    ride_id: Mapped[int] = mapped_column(ForeignKey('rides.ride_id'), primary_key=True)
-    ride_datetime: Mapped[datetime] = mapped_column(nullable=False)
-    ride_duration: Mapped[int] = mapped_column(nullable=False)
-    ride_cost: Mapped[int] = mapped_column(nullable=False)
-    speed_avg: Mapped[float]
-    speed_max: Mapped[float]
-    stop_times: Mapped[int] = mapped_column(nullable=False, default=0)
-    distance: Mapped[float] = mapped_column(nullable=False)
-    refueling: Mapped[int] = mapped_column(nullable=False, default=0)
-    user_ride_quality: Mapped[float] = mapped_column(nullable=False)
-    deviation_normal: Mapped[float] = mapped_column(nullable=False)
+    ride_id = Column(
+        Integer,
+        ForeignKey(
+            'rides.ride_id',
+            ondelete='CASCADE'
+        ),
+        primary_key=True
+    )
+    ride_date = Column(DATE, nullable=False, default=date.today)
+    ride_duration = Column(Integer, nullable=False)
+    ride_cost = Column(Integer, nullable=False)
+    speed_avg = Column(DECIMAL, nullable=False)
+    speed_max = Column(DECIMAL, nullable=False)
+    stop_times = Column(Integer, nullable=False, default=0)
+    distance = Column(DECIMAL, nullable=False)
+    refueling = Column(Integer, nullable=False, default=0)
+    user_ride_quality = Column(DECIMAL, nullable=False)
+    deviation_normal = Column(DECIMAL, nullable=False)
 
