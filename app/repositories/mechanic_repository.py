@@ -14,6 +14,21 @@ class MechanicRepository(Repository):
 
 
     @classmethod
+    async def get_all(cls):
+        async with async_session() as session:
+            query = (
+                select(
+                    cls.model,
+                    User
+                )
+                .join(User, User.user_id == cls.model.user_id)
+            )
+            result = await session.execute(query)
+
+            return result.fetchall()
+
+
+    @classmethod
     async def get_by_user_id(cls, user_id: int):
         async with async_session() as session:
             query = (
@@ -27,14 +42,29 @@ class MechanicRepository(Repository):
             )
             result = await session.execute(query)
 
-            return result.scalar_one_or_none()
+            return result.fetchone()
+
+
+    @classmethod
+    async def get_by_mechanic_id(cls, mechanic_id: int):
+        async with async_session() as session:
+            query = (
+                select(
+                    cls.model,
+                    User
+                )
+                .join(User, User.user_id == cls.model.user_id)
+                .where(cls.model.mechanic_id == mechanic_id)
+            )
+            result = await session.execute(query)
+
+            return result.fetchone()
 
 
     @classmethod
     async def get_mechanic_fixes(cls, mechanic_id: int):
         async with async_session() as session:
             try:
-                # TODO maybe no return car info? or remove some returning fields
                 query = (
                     select(
                         cls.model.mechanic_id,
@@ -45,10 +75,9 @@ class MechanicRepository(Repository):
                     .join(Car, FixInfo.car_id == Car.car_id)
                     .where(cls.model.mechanic_id == mechanic_id)
                 )
-                result = await session.execute(query)
-                mechanic_fixes = [dict(row) for row in result.mappings()]
+                fixes = await session.execute(query)
 
-                return mechanic_fixes
+                return fixes.fetchall()
             except SQLAlchemyError as error:
                 raise error
 

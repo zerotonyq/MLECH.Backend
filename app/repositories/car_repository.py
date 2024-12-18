@@ -13,11 +13,29 @@ from sqlalchemy.exc import SQLAlchemyError
 class CarRepository(Repository):
     model = Car
 
+    @classmethod
+    async def get_all_with_predict(cls):
+        async with async_session() as session:
+            query = (
+                select(
+                    cls.model,
+                    CarPredictedData
+                )
+                .join(CarPredictedData, CarPredictedData.car_id == cls.model.car_id)
+            )
+            result = await session.execute(query)
+
+            return result.scalars().all()
+
 
     @classmethod
-    async def get_by_id(cls, car_id: int):
+    async def get_by_id_with_predict(cls, car_id: int):
         async with async_session() as session:
-            query = select(cls.model).where(cls.model.car_id == car_id)
+            query = (
+                select(cls.model)
+                .join(CarPredictedData, CarPredictedData.car_id == cls.model.car_id)
+                .where(cls.model.car_id == car_id)
+            )
             result = await session.execute(query)
 
             return result.scalar_one_or_none()

@@ -25,7 +25,7 @@ class DriverRepository(Repository):
             )
             result = await session.execute(query)
 
-            return result.scalars().all()
+            return result.fetchall()
 
 
     @classmethod
@@ -41,7 +41,7 @@ class DriverRepository(Repository):
             )
             result = await session.execute(query)
 
-            return result.scalar_one_or_none()
+            return result.fetchone()
 
 
     @classmethod
@@ -57,7 +57,7 @@ class DriverRepository(Repository):
             )
             result = await session.execute(query)
 
-            return result.scalar_one_or_none()
+            return result.fetchone()
 
 
     @classmethod
@@ -75,9 +75,8 @@ class DriverRepository(Repository):
                     .where(cls.model.driver_id == driver_id)
                 )
                 result = await session.execute(query)
-                driver_rides = [dict(row) for row in result.mappings()]
 
-                return driver_rides
+                return result.fetchall()
             except SQLAlchemyError as error:
                 raise error
 

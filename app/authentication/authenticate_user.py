@@ -6,6 +6,7 @@ from app.authentication.passwords import verify_password
 
 async def authenticate_user(email: EmailStr, password: str):
     user = await UserRepository.get_by_filter(email=email)
+    user = user[0]
 
     if user is None:
         print('User not found')

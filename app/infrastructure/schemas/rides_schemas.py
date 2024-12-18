@@ -63,4 +63,4 @@ class RideUpdate(BaseModel):
 
 class SRideUpdate(BaseModel):
     ride_data: RideUpdate
-    ride_info_date: SRideInfoUpdate
+    ride_info_data: SRideInfoUpdate

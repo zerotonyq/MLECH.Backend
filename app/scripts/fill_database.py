@@ -2,7 +2,7 @@ import asyncio
 import random
 import string
 
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from datetime import datetime
 from random import randint
 
@@ -202,11 +202,21 @@ async def fill_rides_table():
     for row in rows:
         fields = row.strip().split(',')
 
+        try:
+            car_id = CAR_IDS[fields[1]]
+            driver_id = DRIVER_IDS[fields[0]]
+        except KeyError:
+            continue
+
+        try:
+            rating = Decimal(fields[4])
+        except (InvalidOperation, ValueError):
+            rating = 7.0
+
         ride_data = {
-            'ride_id': RIDE_IDS[fields[2]],
-            'driver_id': DRIVER_IDS[fields[0]],
-            'car_id': CAR_IDS[fields[1]],
-            'rating': Decimal(fields[4]),
+            'driver_id': driver_id,
+            'car_id': car_id,
+            'rating': rating,
         }
         ride = await RideRepository.add(**ride_data)
 
@@ -215,20 +225,43 @@ async def fill_rides_table():
         except ValueError:
             ride_date = datetime.strptime(fake.date(), '%Y-%m-%d')
 
-        print(RIDE_IDS[fields[2]], fields[2])
+        try:
+            speed_avg = Decimal(fields[7])
+        except (InvalidOperation, ValueError):
+            speed_avg = 70.0
+
+        try:
+            speed_max = Decimal(fields[8])
+        except (InvalidOperation, ValueError):
+            speed_max = 120.0
+
+        try:
+            distance = Decimal(fields[10])
+        except (InvalidOperation, ValueError):
+            distance = 350.5
+
+        try:
+            user_ride_quality = Decimal(fields[12])
+        except (InvalidOperation, ValueError):
+            user_ride_quality = random.uniform(-4, 4)
+
+        try:
+            deviation_normal = Decimal(fields[13])
+        except (InvalidOperation, ValueError):
+            deviation_normal = random.uniform(-4, 4)
 
         ride_info_data = {
             'ride_id': ride.ride_id,
             'ride_date': ride_date,
             'ride_duration': int(fields[5]),
             'ride_cost': int(fields[6]),
-            'speed_avg': Decimal(fields[7]),
-            'speed_max': Decimal(fields[8]),
+            'speed_avg': speed_avg,
+            'speed_max': speed_max,
             'stop_times': int(fields[9]),
-            'distance': Decimal(fields[10]),
+            'distance': distance,
             'refueling': int(fields[11]),
-            'user_ride_quality': Decimal(fields[12]),
-            'deviation_normal': Decimal(fields[13])
+            'user_ride_quality': user_ride_quality,
+            'deviation_normal': deviation_normal
         }
         await RideInfoRepository.add(**ride_info_data)
 

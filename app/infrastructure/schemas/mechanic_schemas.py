@@ -16,6 +16,9 @@ from app.infrastructure.schemas.user_schemas import (
 
 
 class SMechanicGet(BaseModel):
+    class Config:
+        from_attributes = True
+
     mechanic_id: int
     firstname: str
     lastname: str
@@ -78,7 +81,7 @@ class MechanicUpdate(BaseModel):
 
 class SMechanicUpdate(BaseModel):
     user_data: SUserUpdate
-    driver_data: MechanicUpdate
+    mechanic_data: MechanicUpdate
 
 
 class SMechanicFixesGet(BaseModel):

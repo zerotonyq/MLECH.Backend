@@ -1,4 +1,9 @@
-from fastapi import HTTPException, Path, Body, Depends
+from fastapi import (
+    HTTPException,
+    Path,
+    Body,
+    Depends
+)
 
 from app.authentication.get_current_user import get_current_user
 from app.infrastructure.schemas.driver_schemas import SDriverUpdate, SDriverGet
@@ -24,7 +29,7 @@ async def update(user_id: int, request_body: SDriverUpdate):
         if user is None or driver is None:
             raise HTTPException(status_code=404, detail="Driver not found")
 
-        return driver
+        return {"message": "Driver updated successfully", "driver_id": driver.driver_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
 
@@ -32,6 +37,7 @@ async def update(user_id: int, request_body: SDriverUpdate):
 async def update_by_driver_id(driver_id: int = Path(...),  request_body: SDriverUpdate = Body(...)):
     try:
         user = await DriverRepository.get_by_filter(driver_id=driver_id)
+        user = user[0]
 
         user_id = user.user_id
     except Exception as error:

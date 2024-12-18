@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from app.routers.access.profile import get_profile
 from app.routers.access.login import login
 from app.routers.access.logout import logout
 from app.routers.access.registration import (
@@ -34,4 +35,5 @@ router.add_api_route(
 
 router.add_api_route("/login", login, methods=["POST"], summary="Login")
 router.add_api_route("/logout", logout, methods=["POST"], summary="Logout")
+router.add_api_route("/profile", get_profile, methods=["POST"], summary="Profile")
 

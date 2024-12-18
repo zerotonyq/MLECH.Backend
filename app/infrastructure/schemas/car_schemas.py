@@ -8,6 +8,9 @@ from pydantic import (
 
 
 class SCarGet(BaseModel):
+    class Config:
+        from_attributes = True
+
     car_id: int
     car_number: str
     is_rented: bool
@@ -104,6 +107,9 @@ class SCarUpdate(BaseModel):
 
 
 class CarRidesGet(BaseModel):
+    class Config:
+        from_attributes = True
+
     car_id: int
     driver_id: int
     rating: float
@@ -119,6 +125,9 @@ class CarRidesGet(BaseModel):
 
 
 class CarFixesGet(BaseModel):
+    class Config:
+        from_attributes = True
+
     car_id: int
     mechanic_id: int
     fix_date: datetime
@@ -128,6 +137,9 @@ class CarFixesGet(BaseModel):
 
 
 class SCarPredictedDataGet(BaseModel):
+    class Config:
+        from_attributes = True
+
     car_id: int
     target_reg: float
     target_class: str
