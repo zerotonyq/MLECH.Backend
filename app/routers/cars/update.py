@@ -23,7 +23,7 @@ async def update_car_by_id(car_id: int = Path(...), request_body: SCarUpdate = B
         if car is None:
             raise HTTPException(status_code=404, detail="Car not found")
 
-        return car
+        return {"message": "Car updated successfully", "car_id": car.car_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
 
@@ -40,7 +40,7 @@ async def update_car_predicted_data_by_id(car_id: int = Path(...), request_body:
         if car_predicted_data is None:
             raise HTTPException(status_code=404, detail="Car Predicted Data not found")
 
-        return car_predicted_data
+        return {"message": "Car Predicted Data updated successfully", "car_id": car_predicted_data.car_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
 

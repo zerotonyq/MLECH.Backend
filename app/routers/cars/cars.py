@@ -47,7 +47,7 @@ router.add_api_route(
 
 router.add_api_route('/update/{car_id}', update_car_by_id, methods=['PUT'], summary='Update one car by id')
 router.add_api_route(
-    'update/predicted_data/{car_id}',
+    '/update/predicted_data/{car_id}',
     update_car_predicted_data_by_id,
     methods=['PUT'],
     summary='Update one car predicted data'

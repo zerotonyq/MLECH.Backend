@@ -14,7 +14,7 @@ class Repository:
             query = select(cls.model)
             result = await session.execute(query)
 
-            return result.scalars().all()
+            return result.fetchall()
 
 
     @classmethod
@@ -23,7 +23,7 @@ class Repository:
             query = select(cls.model).filter_by(**filters)
             result = await session.execute(query)
 
-            return result.scalars().all()
+            return result.fetchall()
 
 
     @classmethod

@@ -44,3 +44,4 @@ class BaseTable(AsyncAttrs, DeclarativeBase):
             table_name = "fix_info"
 
         return table_name
+

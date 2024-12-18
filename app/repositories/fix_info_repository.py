@@ -8,12 +8,29 @@ from sqlalchemy.future import select
 class FixInfoRepository(Repository):
     model = FixInfo
 
+    @classmethod
+    async def get_all(cls):
+        async with async_session() as session:
+            query = (
+                select(
+                    cls.model,
+                )
+            )
+            result = await session.execute(query)
+
+            return result.fetchall()
+
 
     @classmethod
     async def get_by_id(cls, fix_info_id: int):
         async with async_session() as session:
-            query = select(cls.model).where(cls.model.fix_info_id == fix_info_id)
+            query = (
+                select(
+                    cls.model
+                )
+                .where(cls.model.fix_info_id == fix_info_id)
+            )
             result = await session.execute(query)
 
-            return result.scalar_one_or_none()
+            return result.fetchone()
 

@@ -47,8 +47,6 @@ class SRideAdd(BaseModel):
 
 
 class RideUpdate(BaseModel):
-    driver_id: int | None = Field(None, description='Driver ID')
-    car_id: int | None = Field(None, description='Car ID')
     rating: float | None = Field(None, description='Rating')
 
 
