@@ -5,7 +5,7 @@ from app.repositories.driver_repository import DriverRepository
 async def get_all_drivers():
     drivers = await DriverRepository.get_all()
 
-    mechanics = [
+    drivers = [
         SDriverGet(
             **{
                 **driver_data.__dict__,
