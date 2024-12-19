@@ -16,3 +16,16 @@ class UserRepository(Repository):
 
             return result.scalar_one_or_none()
 
+
+    @classmethod
+    async def get_by_email(cls, email: str):
+        async with async_session() as session:
+            query = (
+                select(
+                    cls.model
+                )
+                .where(cls.model.email == email)
+            )
+            result = await session.execute(query)
+
+            return result.scalar_one_or_none()
