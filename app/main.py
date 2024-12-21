@@ -13,11 +13,12 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Разрешить запросы с любого источника
+    allow_origins=["http://localhost:3000"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Разрешить все методы (GET, POST, OPTIONS и т.д.)
-    allow_headers=["*"],  # Разрешить все заголовки
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.get("/")
 async def root():
