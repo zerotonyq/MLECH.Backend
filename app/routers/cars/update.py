@@ -23,7 +23,7 @@ async def update_car_by_id(car_id: int = Path(...), request_body: SCarUpdate = B
         if car is None:
             raise HTTPException(status_code=404, detail="Car not found")
 
-        return {"message": "Car updated successfully", "car_id": car.car_id}
+        return {"message": "Car updated successfully", "car_id": car[0].car_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
 

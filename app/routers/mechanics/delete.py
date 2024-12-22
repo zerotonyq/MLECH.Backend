@@ -13,6 +13,10 @@ from app.routers.users.delete import delete
 async def delete_by_mechanic_id(mechanic_id: int = Path(...)):
     try:
         user = await MechanicRepository.get_by_filter(mechanic_id=mechanic_id)
+
+        if not user:
+            raise HTTPException(status_code=404, detail="Mechanic not found")
+
         user = user[0]
 
         user_id = user.user_id
