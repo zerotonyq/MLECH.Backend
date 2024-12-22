@@ -23,7 +23,7 @@ class Repository:
             query = select(cls.model).filter_by(**filters)
             result = await session.execute(query)
 
-            return result.fetchall()
+            return result.scalars().all()
 
 
     @classmethod
@@ -62,7 +62,7 @@ class Repository:
 
                     await session.commit()
 
-                    return result.scalar_one_or_none()
+                    return result.fetchone()
                 except SQLAlchemyError as error:
                     await session.rollback()
                     raise error

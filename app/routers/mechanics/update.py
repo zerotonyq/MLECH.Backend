@@ -27,9 +27,9 @@ async def update(user_id: int, request_body: SMechanicUpdate):
         )
 
         if user is None or mechanic is None:
-            raise HTTPException(status_code=404, detail="Driver not found")
+            raise HTTPException(status_code=404, detail="Mechanic not found")
 
-        return {"message": "Mechanic updated successfully", "mechanic_id": mechanic.mechanic_id}
+        return {"message": "Mechanic updated successfully", "mechanic_id": mechanic[0].mechanic_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
 

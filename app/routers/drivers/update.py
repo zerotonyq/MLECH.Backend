@@ -29,7 +29,7 @@ async def update(user_id: int, request_body: SDriverUpdate):
         if user is None or driver is None:
             raise HTTPException(status_code=404, detail="Driver not found")
 
-        return {"message": "Driver updated successfully", "driver_id": driver.driver_id}
+        return {"message": "Driver updated successfully", "driver_id": driver[0].driver_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
 

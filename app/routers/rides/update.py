@@ -31,6 +31,6 @@ async def update_ride(ride_id: int = Path(...), request_body: SRideUpdate = Body
         if ride is None or ride_info is None:
             raise HTTPException(status_code=404, detail="Ride not found")
 
-        return {"message": "Ride updated successfully", "ride_id": ride.ride_id}
+        return {"message": "Ride updated successfully", "ride_id": ride[0].ride_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))

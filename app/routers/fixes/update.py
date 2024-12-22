@@ -23,6 +23,6 @@ async def update_fix_by_id(fix_info_id: int = Path(...), request_body: SFixInfoU
         if fix is None:
             raise HTTPException(status_code=404, detail="Fix not found")
 
-        return {"message": "Fix updated successfully", "fix_id": fix.fix_info_id}
+        return {"message": "Fix updated successfully", "fix_id": fix[0].fix_info_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
