@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.access.access import router as access_router
+from app.routers.users.users import router as users_router
 from app.routers.drivers.drivers import router as drivers_router
 from app.routers.mechanics.mechanics import router as mechanics_router
 from app.routers.cars.cars import router as cars_router
@@ -19,11 +20,14 @@ app.add_middleware(
     allow_headers=["*"],  # Разрешить все заголовки
 )
 
+
 @app.get("/")
 async def root():
     return {"message": "Let it Snow! Let it Snow! Let it Snow!"}
 
+
 app.include_router(access_router)
+app.include_router(users_router)
 app.include_router(drivers_router)
 app.include_router(mechanics_router)
 app.include_router(cars_router)
