@@ -47,4 +47,7 @@ async def update_by_driver_id(driver_id: int = Path(...),  request_body: SDriver
 
 
 async def update_driver(request_body: SDriverUpdate, current_user: SDriverGet = Depends(get_current_user)):
-    return await update(user_id=current_user.user_id, request_body=request_body)
+    drivar_data, _ = await DriverRepository.get_by_driver_id(current_user.driver_id)
+    user_id = drivar_data.user_id
+
+    return await update(user_id=user_id, request_body=request_body)

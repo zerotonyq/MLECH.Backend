@@ -35,5 +35,5 @@ router.add_api_route(
 
 router.add_api_route("/login", login, methods=["POST"], summary="Login")
 router.add_api_route("/logout", logout, methods=["POST"], summary="Logout")
-router.add_api_route("/profile", get_profile, methods=["POST"], summary="Profile")
+router.add_api_route("/profile", get_profile, methods=["GET"], summary="Profile")
 

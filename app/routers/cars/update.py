@@ -1,3 +1,5 @@
+import httpx
+
 from fastapi import (
     HTTPException,
     Path,
@@ -5,6 +7,7 @@ from fastapi import (
     Depends
 )
 
+from app.config.config import get_ml_server_query_url
 from app.infrastructure.schemas.car_schemas import SCarUpdate
 from app.infrastructure.schemas.cars_predicted_data_schemas import SCarPredictedDataUpdate
 from app.repositories.car_repository import CarRepository
@@ -43,4 +46,16 @@ async def update_car_predicted_data_by_id(car_id: int = Path(...), request_body:
         return {"message": "Car Predicted Data updated successfully", "car_id": car_predicted_data.car_id}
     except Exception as error:
         raise HTTPException(status_code=400, detail=str(error))
+
+
+async def run_ml_model():
+    ml_server_query_url = get_ml_server_query_url()
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(ml_server_query_url)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code, detail=response.text)
+
+        return {"message": "Ml server started successfully"}
 
