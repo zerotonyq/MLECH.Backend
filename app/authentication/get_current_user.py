@@ -50,17 +50,22 @@ async def get_current_user(token: str = Depends(get_token)):
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='User not found')
 
-    user_data_dict = user._mapping
-
     if user.role == UserRoleEnum.ADMIN:
-        return SUserGet(**user_data_dict)
+        user_data = user[0]
+        user_dict = {**user_data.__dict__}
+
+        return SUserGet(**user_dict)
     elif user.role == UserRoleEnum.DRIVER:
-        driver = DriverRepository.get_by_user_id(user_id=int(user_id))
-        driver_data_dict = driver._mapping
+        driver = await DriverRepository.get_by_user_id(user_id=int(user_id))
 
-        return SDriverGet(**driver_data_dict)
+        driver_data, user_data = driver
+        driver_dict = {**driver_data.__dict__, **user_data.__dict__}
+
+        return SDriverGet(**driver_dict)
     elif user.role == UserRoleEnum.MECHANIC:
-        mechanic = MechanicRepository.get_by_user_id(user_id=int(user_id))
-        mechanic_data_dict = mechanic._mapping
+        mechanic = await MechanicRepository.get_by_user_id(user_id=int(user_id))
 
-        return SMechanicGet(**mechanic_data_dict)
+        mechanic_data, user_data = mechanic
+        mechanic_dict = {**mechanic_data.__dict__, **user_data.__dict__}
+
+        return SMechanicGet(**mechanic_dict)
