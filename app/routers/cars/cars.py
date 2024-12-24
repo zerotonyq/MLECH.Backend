@@ -4,7 +4,7 @@ from app.routers.cars.create import add_car
 from app.routers.cars.delete import delete_by_car_id, delete_car_predicted_data_by_car_id
 from app.routers.cars.read import get_all_cars, get_all_cars_with_predict, get_car_by_id, get_car_by_id_with_predict, \
     get_car_predicted_data, get_car_rides, get_car_fixes
-from app.routers.cars.update import update_car_by_id, update_car_predicted_data_by_id
+from app.routers.cars.update import update_car_by_id, update_car_predicted_data_by_id, run_ml_model
 
 router = APIRouter(prefix="/cars", tags=["Work with cars"])
 
@@ -36,6 +36,7 @@ router.add_api_route(
 
 router.add_api_route('/get_rides', get_car_rides, methods=['GET'], summary='Get car all rides')
 router.add_api_route('/get_fixes', get_car_fixes, methods=['GET'], summary='Get car all fixes')
+router.add_api_route('/predict_cars_data', run_ml_model, methods=['GET'], summary='Run ML service')
 
 router.add_api_route('/delete/{car_id}', delete_by_car_id, methods=['DELETE'], summary='Delete one car by id')
 router.add_api_route(
