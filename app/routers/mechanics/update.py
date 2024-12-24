@@ -47,5 +47,8 @@ async def update_by_mechanic_id(mechanic_id: int = Path(...),  request_body: SMe
 
 
 async def update_mechanic(request_body: SMechanicUpdate, current_user: SMechanicGet = Depends(get_current_user)):
-    return await update(user_id=current_user.user_id, request_body=request_body)
+    mechanic_data, _ = await MechanicRepository.get_by_mechanic_id(mechanic_id=current_user.mechanic_id)
+    user_id = mechanic_data.user_id
+
+    return await update(user_id=user_id, request_body=request_body)
 

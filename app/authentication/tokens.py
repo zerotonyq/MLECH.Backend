@@ -30,6 +30,12 @@ def get_token(request: Request) -> str:
     token = request.cookies.get('token')
 
     if not token:
+        token = request.headers.get('Authorization')
+
+        if token and token.startswith('Bearer '):
+            token = token.split(" ")[1]
+
+    if not token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Token is missing')
 
     return token
