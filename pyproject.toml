@@ -5,6 +5,7 @@ description = "Сервис автопарк"
 authors = ["bibaIboba <bibaIboba@gmail.com>"]
 
 [tool.poetry.dependencies]
+httpx = "^0.25.1"
 python = "^3.12"
 fastapi = "^0.100.0"
 uvicorn = "0.22.0"
