@@ -22,6 +22,7 @@ class DriverRepository(Repository):
                     User
                 )
                 .join(User, User.user_id == cls.model.user_id)
+                .limit(100)
             )
             result = await session.execute(query)
 

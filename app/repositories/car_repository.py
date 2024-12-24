@@ -22,6 +22,7 @@ class CarRepository(Repository):
                 select(
                     cls.model,
                 )
+                .limit(100)
             )
             result = await session.execute(query)
 

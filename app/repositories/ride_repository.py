@@ -19,6 +19,7 @@ class RideRepository(Repository):
                     RideInfo
                 )
                 .join(RideInfo, cls.model.ride_id == RideInfo.ride_id)
+                .limit(100)
             )
             result = await session.execute(query)
 
