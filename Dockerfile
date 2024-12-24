@@ -2,7 +2,9 @@ FROM python:3.12
 
 WORKDIR /MLECH.Backend
 
-COPY pyproject.toml uv.lock ./
+COPY pyprojectDocker.toml uv.lock ./
+
+RUN mv pyprojectDocker.toml pyproject.toml
 
 RUN pip install poetry
 
